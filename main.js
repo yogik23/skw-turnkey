@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import chalk from "chalk";
+import cron from "node-cron";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -13,7 +14,6 @@ const network = {
   chainId: 11155111,
   ensAddress: null
 };
-
 const provider = new ethers.JsonRpcProvider(RPC, network);
 
 const privateKeys = fs.readFileSync(path.join(__dirname, "privatekey.txt"), "utf-8")
@@ -36,6 +36,10 @@ const logError = (msg) => console.log(chalk.hex('#FF6347')(`🔴 ${msg}`));
 
 function generateRandomAmount(min = 0.00001, max = 0.00008) {
   return (Math.random() * (max - min) + min).toFixed(8);
+}
+
+function randomdelay(min = 5000, max = 15000) {
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 async function sendEth(wallet, toAddress, amountEth, nonce = undefined) {
@@ -78,11 +82,11 @@ async function batchtx(wallet) {
 
     await sendEth(wallet, address, amount, nonce);
     nonce++;
-    await delay(5000);
+    await delay(randomdelay());
   }
 }
 
-async function main() {
+async function startBot() {
   console.clear();
 
   for (const pk of privateKeys) {
@@ -101,12 +105,26 @@ async function main() {
       const amountEth = generateRandomAmount(0.00001, 0.00008);
       const nonce = await provider.getTransactionCount(wallet.address);
       await sendEth(wallet, adrs, amountEth, nonce);
-      await delay(5000);
+      await delay(randomdelay());
     }
 
     await batchtx(wallet);
-    await delay(5000);
+    await delay(randomdelay());
   }
+}
+
+async function main() {
+  cron.schedule('0 1 * * *', async () => { 
+    await startBot();
+    console.log();
+    console.log(chalk.hex('#FF00FF')(`Cron AKTIF`));
+    console.log(chalk.hex('#FF1493')('Jam 08:00 WIB Autobot Akan Run'));
+  });
+
+  await startBot();
+  console.log();
+  console.log(chalk.hex('#FF00FF')(`Cron AKTIF`));
+  console.log(chalk.hex('#FF1493')('Jam 08:00 WIB Autobot Akan Run'));
 }
 
 main();
