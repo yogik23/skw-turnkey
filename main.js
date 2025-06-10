@@ -29,7 +29,7 @@ const addressList = fs.readFileSync(path.join(__dirname, "address.txt"), "utf-8"
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const logAccount = (msg) => console.log(chalk.hex('#A259FF')(`🟣 ${msg}`));
-const logCache   = msg => console.log(chalk.hex('#C0C0C0')(`⚪️ ${msg}`));
+const logCache = (message) => console.log(chalk.hex('#FF8C00')(`🟡 ${message}`));
 const logInfo = (msg) => console.log(chalk.hex('#48D1CC')(`🔵 ${msg}`));
 const logSuccess = (msg) => console.log(chalk.hex('#00FF00')(`🟢 ${msg}`));
 const logError = (msg) => console.log(chalk.hex('#FF6347')(`🔴 ${msg}`));
