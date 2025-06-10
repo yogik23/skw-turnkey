@@ -88,9 +88,8 @@ async function batchtx(wallet) {
 }
 
 async function startBot() {
-  console.clear();
   displayskw();
-  await delay(2000);
+  console.clear();
   for (const pk of privateKeys) {
     const wallet = new ethers.Wallet(pk, provider);
     const walletAddress = wallet.address.toLowerCase();
