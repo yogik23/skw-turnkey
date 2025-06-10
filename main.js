@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import chalk from "chalk";
 import cron from "node-cron";
+import { displayskw } from './skw/displayskw.js';
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -88,7 +89,8 @@ async function batchtx(wallet) {
 
 async function startBot() {
   console.clear();
-
+  displayskw();
+  await delay(2000);
   for (const pk of privateKeys) {
     const wallet = new ethers.Wallet(pk, provider);
     const walletAddress = wallet.address.toLowerCase();
