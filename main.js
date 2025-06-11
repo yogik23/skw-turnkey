@@ -39,7 +39,7 @@ function generateRandomAmount(min = 0.00001, max = 0.00008) {
   return (Math.random() * (max - min) + min).toFixed(8);
 }
 
-function randomdelay(min = 5000, max = 15000) {
+function randomdelay(min = 10000, max = 20000) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
