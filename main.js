@@ -77,7 +77,6 @@ async function batchtx(wallet) {
 
   for (let { address, amount } of entries) {
     if (address === wallet.address.toLowerCase()) {
-      logWarning(`Lewatkan address sendiri: ${address}`);
       continue;
     }
 
